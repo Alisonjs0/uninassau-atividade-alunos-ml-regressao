@@ -169,6 +169,38 @@ from sklearn.impute import SimpleImputer
 imputer = SimpleImputer(strategy='median')
 df[cols] = imputer.fit_transform(df[cols])
 
+# Fluxo completo (treino x teste) para evitar data leakage
+from sklearn.model_selection import train_test_split
+
+# Separar features (X) e target (y)
+X = df.drop('final_grade', axis=1)
+y = df['final_grade']
+
+# Dividir em treino e teste (80/20)
+X_train, X_test, y_train, y_test = train_test_split(
+	X, y, test_size=0.2, random_state=42
+)
+
+# Selecionar apenas as colunas numéricas para imputação
+numeric_cols_train = X_train.select_dtypes(include=np.number).columns
+
+imputer = SimpleImputer(strategy='mean')
+imputer.fit(X_train[numeric_cols_train])            # aprende com o TREINO
+
+X_train_imputed = imputer.transform(X_train[numeric_cols_train])
+X_test_imputed = imputer.transform(X_test[numeric_cols_train])   # reutiliza médias do treino
+
+# Converter de volta para DataFrame (opcional, mas ajuda na inspeção)
+X_train_imputed = pd.DataFrame(X_train_imputed,
+							   columns=numeric_cols_train,
+							   index=X_train.index)
+X_test_imputed = pd.DataFrame(X_test_imputed,
+							  columns=numeric_cols_train,
+							  index=X_test.index)
+
+print("Imputação concluída sem data leakage!")
+print("Treino:", X_train_imputed.shape, "Teste:", X_test_imputed.shape)
+
 # 2. Outliers (IQR)
 Q1 = df['col'].quantile(0.25)
 Q3 = df['col'].quantile(0.75)
