@@ -1,180 +1,112 @@
-# 🔧 Etapa 2: Pré-processamento de Dados
+# Etapa 2: Pré-Processamento de Dados
 
-**Prazo de Entrega:** [Data será informada pelo professor]
-**Peso:** 20% da nota do projeto (2.0 pontos)
-- 17% Notebook e arquivos (1.7 pontos)
-- 3% Apresentação (0.3 pontos)
+## 🎯 Objetivos
 
-**Tempo estimado:** 6-8 horas
-
-**Entregáveis:**
-- `notebooks/02_Preprocessamento.ipynb` (ou `.py`)
-- `data/students_clean.csv`
-- `models/scaler.pkl`
-- **🎤 Apresentação de 5 minutos**
+Nesta etapa, seu objetivo é limpar e transformar os dados brutos que você analisou na Etapa 1, preparando-os para serem usados em um modelo de Machine Learning. Você irá aplicar técnicas para tratar problemas de qualidade e para converter os dados em um formato numérico e padronizado.
 
 ---
 
-## 🎯 Objetivo Simples
+## 📝 Tarefas Principais
 
-Limpar e preparar os dados para a modelagem (Etapa 3).
+Seu trabalho será documentado em um notebook Jupyter (`notebooks/02_Preprocessamento.ipynb`). Organize seu notebook seguindo as seções abaixo. Para cada tarefa, escreva o código necessário e, em seguida, use células de Markdown para documentar suas decisões.
 
-**Você vai:**
+### 1. Tratamento de Valores Faltantes
 
-💡 **Como fazer?** No arquivo [`INSTRUCOES_ALUNOS.md`](INSTRUCOES_ALUNOS.md) cada etapa traz:
-- o objetivo da tarefa,
-- exemplos de código prontos (copie, adapte e execute),
-- explicações simples sobre quando usar média ou mediana, como ler um boxplot, a diferença entre One-Hot e LabelEncoder, e por que salvar o scaler.
+**Por que é importante?** A maioria dos algoritmos de Machine Learning não consegue lidar com valores ausentes (`NaN`). Deixá-los no dataset resultará em erros.
 
----
+**O que fazer:**
+- **Para colunas numéricas:** Preencha os valores faltantes usando uma estratégia de imputação.
+  - **Como fazer (dicas):** Use o `SimpleImputer` do Scikit-learn ou o método `.fillna()` do Pandas.
+  - **Estratégia `median` (mediana):** Mais segura e recomendada se a coluna tiver outliers ou uma distribuição assimétrica.
+  - **Estratégia `mean` (média):** Funciona bem para colunas com distribuição simétrica (semelhante a um sino).
+- **Para colunas categóricas:** Preencha os valores faltantes com a categoria mais comum.
+  - **Como fazer (dicas):** Use a estratégia `most_frequent` (moda) do `SimpleImputer` ou o método `.fillna(df['coluna'].mode()[0])`.
 
-## 📋 O Que Você Vai Entregar
-
-### 1. Notebook: `notebooks/02_Preprocessamento.ipynb`
-- 12 questões respondidas
-- 4 visualizações criadas (antes/depois)
-
-### 2. Dataset limpo: `data/students_clean.csv`
-- Pronto para usar na Etapa 3
-
-### 3. Scaler salvo: `models/scaler.pkl`
-- Para reutilizar na Etapa 3
-
-### 4. Apresentação: 5 minutos 🎤
-
-**O que apresentar:**
-- **Slide 1:** Problemas corrigidos
-  - Quantos missing, outliers, duplicatas removidos
-- **Slide 2:** Transformações de distribuição (skewness)
-  - Quais colunas transformou e por quê
-  - Mostrar 1 gráfico antes/depois
-- **Slide 3:** Features criadas
-  - Liste as 2 features e suas correlações com target
-- **Slide 4:** Resultado final
-  - Dataset antes: X linhas, Y colunas
-  - Dataset depois: X linhas, Z colunas
-  - Pronto para modelagem ✅
-
-**Formato:**
-- 4 slides (PowerPoint, Google Slides, ou PDF)
-- Máximo 5 minutos
-- Todos os membros devem participar (~1 min cada)
+⚠️ **Cuidado com Data Leakage:** Para evitar vazar informação dos dados de teste para o treino, o ideal é que qualquer cálculo (como média ou mediana) seja feito **apenas** com os dados de treino e depois aplicado aos dados de teste. Em um primeiro momento, você pode fazer no dataset todo para simplificar, mas tenha essa boa prática em mente para a Etapa 3.
 
 ---
 
-## 📖 Instruções Detalhadas
+### 2. Tratamento de Outliers
 
-👉 **Abra o arquivo:** [`INSTRUCOES_ALUNOS.md`](INSTRUCOES_ALUNOS.md)
+**Por que é importante?** Valores extremos (outliers) podem distorcer a escala das features e influenciar negativamente o treinamento de alguns modelos, especialmente os lineares.
 
-Lá você vai encontrar:
-- **12 questões** divididas em 7 partes
-- Código de exemplo pronto para copiar
-- Links para documentação oficial
-- Estrutura completa da apresentação
-
----
-
-## ✅ Critérios de Avaliação
-
-### Notebook e Arquivos (17% = 1.7 pontos)
-
-| Critério | Peso | O Que Avaliamos |
-|----------|:----:|-----------------|
-| **12 Questões respondidas** | 60% | Código funciona + respostas corretas |
-| **4 Visualizações** | 20% | Gráficos antes/depois (missing, outliers, skewness, normalização) |
-| **Dataset limpo** | 15% | `students_clean.csv` salvo corretamente |
-| **Scaler salvo** | 5% | `scaler.pkl` salvo |
-
-### Apresentação (3% = 0.3 pontos)
-
-| Critério | Peso | O Que Avaliamos |
-|----------|:----:|-----------------|
-| **Conteúdo** | 50% | Mostrou resultados relevantes (problemas corrigidos, transformações, features) |
-| **Clareza** | 30% | Explicação clara e objetiva |
-| **Participação** | 20% | Todos os membros apresentaram |
+**O que fazer:**
+- Com base na sua análise da Etapa 1, decida como tratar os outliers em colunas numéricas importantes.
+- **Como fazer (dicas):**
+  - **Remoção:** Se você tem certeza de que o outlier é um erro de medição ou digitação e eles são poucos, você pode removê-los. Use com cuidado para não perder dados valiosos. Ex: `df = df[df['coluna'] < valor_maximo]`.
+  - **Capping (Limitar):** Uma abordagem mais segura é "aparar" os outliers, substituindo-os por um valor máximo ou mínimo aceitável (por exemplo, o limite do "whisker" do boxplot, que é `Q3 + 1.5 * IQR`).
+  - **Manter:** Se os outliers são valores raros, mas legítimos (ex: uma venda de valor muito alto em um e-commerce), pode ser melhor mantê-los. Transformações (como a de log) podem ajudar a reduzir seu impacto.
 
 ---
 
-## 🚀 Como Começar
+### 3. Encoding de Variáveis Categóricas
 
-### Passo 1: Copiar Template
-```bash
-cd notebooks
-cp 02_Preprocessamento_TEMPLATE.py 02_Preprocessamento.py
-```
+**Por que é importante?** Modelos de ML trabalham com números, não com texto. Precisamos converter colunas categóricas (como "gênero" ou "cidade") em um formato numérico.
 
-### Passo 2: Abrir no Jupyter/VS Code
-```bash
-# Opção 1: Jupyter Notebook
-jupyter notebook 02_Preprocessamento.py
-
-# Opção 2: VS Code
-code 02_Preprocessamento.py
-```
-
-### Passo 3: Seguir os TODOs
-- O template tem comentários `# TODO:` onde você deve completar
-- Siga a ordem das questões em `INSTRUCOES_ALUNOS.md`
+**O que fazer:**
+- Converta todas as colunas de texto (tipo `object`) em representações numéricas.
+- **Como fazer (dicas):**
+  - **One-Hot Encoding (para variáveis nominais):** Use esta técnica para colunas onde as categorias **não têm uma ordem** natural (ex: `cidade`, `cor_favorita`). Ela cria novas colunas binárias (0 ou 1) para cada categoria.
+    - **Ferramenta:** `pd.get_dummies(df, columns=['coluna_a', 'coluna_b'], drop_first=True)`.
+    - O `drop_first=True` é importante para remover uma das categorias, evitando redundância de informação (multicolinearidade).
+  - **Label Encoding / Ordinal Encoding (para variáveis ordinais):** Use para colunas onde as categorias **têm uma ordem** clara (ex: `ruim`, `médio`, `bom`). Ela atribui um número inteiro a cada categoria (ex: 0, 1, 2), preservando a ordem.
+    - **Ferramenta:** `OrdinalEncoder` do Scikit-learn ou o método `.map({'ruim': 0, 'médio': 1, 'bom': 2})` do Pandas.
 
 ---
 
-## 📦 Como Entregar
+### 4. Normalização de Variáveis Numéricas
 
-```bash
-# 1. Adicionar arquivos
-git add notebooks/02_Preprocessamento.py
-git add data/students_clean.csv
-git add models/scaler.pkl
+**Por que é importante?** Features com escalas muito diferentes (ex: `idade` variando de 18 a 70 e `salário` variando de 1.000 a 100.000) podem fazer com que o modelo dê mais importância à feature com a escala maior. A normalização coloca todas na mesma escala.
 
-# 2. Commit
-git commit -m "feat: Completa Etapa 2 - Pré-processamento"
-
-# 3. Push
-git push origin main
-```
+**O que fazer:**
+- Aplique uma técnica de scaling a todas as suas colunas numéricas (após tratar outliers e faltantes).
+- **Como fazer (dicas):**
+  - **StandardScaler:** Transforma os dados para que tenham média 0 e desvio padrão 1. É a técnica mais comum e funciona bem para a maioria dos algoritmos.
+  - **MinMaxScaler:** Transforma os dados para que fiquem em um intervalo específico, geralmente entre 0 e 1.
+- **Salve o scaler:** Após treinar o scaler (`scaler.fit(dados_de_treino)`), é **crucial** salvá-lo em um arquivo.
+  - **Ferramenta:** `import joblib; joblib.dump(scaler, 'models/scaler.pkl')`.
+  - Isso garante que você poderá aplicar **exatamente a mesma transformação** nos dados de teste e em novos dados no futuro.
 
 ---
 
-## ✅ Checklist Antes de Entregar
+### 5. Feature Engineering (Opcional)
 
-### Código
-- [ ] 12 questões respondidas
-- [ ] 4 visualizações criadas (missing, outliers, skewness, normalização)
-- [ ] Dataset salvo em `data/students_clean.csv`
-- [ ] Scaler salvo em `models/scaler.pkl`
-- [ ] Notebook executa sem erros ("Run All")
-- [ ] Código está no GitHub
+**Por que é importante?** Às vezes, as colunas originais não contêm toda a informação. Criar novas features pode ajudar o modelo a encontrar padrões que não eram óbvios antes.
 
-### Apresentação
-- [ ] 4 slides preparados
-- [ ] Apresentação ensaiada (máximo 5 min)
-- [ ] Todos os membros sabem sua parte
-- [ ] Slides salvos em `docs/apresentacao_etapa2.pdf`
+**O que fazer:**
+- Crie 1 ou 2 novas colunas a partir das existentes que você acredita que possam ser úteis.
+- **Como fazer (dicas de ideias):**
+  - **Criar uma razão:** Se você tem `distancia_km` e `tempo_minutos`, pode criar `velocidade_media = distancia_km / (tempo_minutos / 60)`.
+  - **Combinar features:** Se você tem `numero_de_filhos` e `estado_civil`, pode criar uma feature binária `tem_familia_grande`.
+  - **Extrair de datas:** Se tiver uma coluna de data, pode extrair o dia da semana, o mês ou se é um fim de semana.
 
 ---
 
-## 💡 Dicas
+## 📊 Entregáveis
 
-✅ **Siga o template** - Não precisa começar do zero
-✅ **Use os exemplos** - Código de exemplo está nos comentários
-✅ **Execute célula por célula** - Não tente fazer tudo de uma vez
-✅ **Consulte os links** - Documentação do scikit-learn ajuda
-
-❌ **Não copie sem entender** - Você vai precisar explicar
-❌ **Não pule questões** - Todas são obrigatórias
-❌ **Não esqueça de salvar** - Dataset e scaler são entregáveis
+1.  **Notebook (`notebooks/02_Preprocessamento.ipynb`):** Contendo todo o código e as justificativas em Markdown para suas decisões.
+2.  **Dataset Limpo (`data/students_clean.csv`):** O DataFrame final, após todas as transformações, salvo em um novo arquivo CSV.
+3.  **Scaler Salvo (`models/scaler.pkl`):** O objeto do scaler treinado e salvo com `joblib`.
 
 ---
 
-## 🆘 Precisa de Ajuda?
+## 🎤 Apresentação (5 minutos)
 
-1. Leia `INSTRUCOES_ALUNOS.md` com atenção
-2. Veja o código de exemplo no template
-3. Consulte os links de documentação
-4. Pergunte ao professor no horário de atendimento
+Prepare uma apresentação curta e objetiva (4-5 slides) para resumir seu trabalho.
+
+- **Slide 1: Resumo dos Problemas Corrigidos:** Quantos valores faltantes foram tratados? Quantos outliers foram identificados e o que você fez com eles?
+- **Slide 2: Principais Transformações:** Mostre um exemplo de encoding (One-Hot ou Label) e como ficou o resultado. Mostre um gráfico de uma variável antes e depois da normalização.
+- **Slide 3: Feature Engineering (se aplicável):** Apresente a(s) nova(s) feature(s) que você criou e por que acredita que ela(s) pode(m) ser útil(is).
+- **Slide 4: Resultado Final:** Mostre as dimensões do dataset antes e depois (`X` linhas, `Y` colunas -> `X` linhas, `Z` colunas) e declare que os dados estão prontos para a modelagem.
 
 ---
 
-**Boa sorte!** 🚀
+## ✅ Checklist de Sucesso
 
-*Última atualização: Novembro 2025*
+- [ ] Seu notebook está organizado com títulos para cada tarefa de pré-processamento.
+- [ ] Todas as decisões (ex: por que usou mediana, por que removeu outliers) estão justificadas em Markdown.
+- [ ] O dataset limpo foi salvo corretamente em `data/students_clean.csv`.
+- [ ] O scaler foi salvo em `models/scaler.pkl`.
+- [ ] O notebook executa do início ao fim sem erros.
+
+**Bom trabalho!** 🚀

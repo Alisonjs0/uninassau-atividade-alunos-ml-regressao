@@ -1,337 +1,103 @@
+# Etapa 1: Análise Exploratória de Dados (EDA)
 
-# 📊 Semana 1: Análise Exploratória de Dados (EDA)
+## 🎯 Objetivos
 
-**Prazo de Entrega:** [Data será informada pelo professor]
-**Peso:** 25% da nota do projeto (1.0 ponto)
-**Entregável:** `notebooks/01_EDA.ipynb`
+Nesta etapa, seu objetivo é realizar uma investigação completa no dataset do projeto. Você irá explorar os dados para entender suas características, identificar problemas de qualidade e descobrir os primeiros insights que guiarão as próximas etapas do projeto.
 
----
-
-## 🎯 Objetivos da Semana
-
-Ao final desta semana, você deve:
-
-1. **Conhecer profundamente o dataset** - Entender cada variável, seus valores e significados
-2. **Identificar problemas de qualidade** - Encontrar valores faltantes, outliers, inconsistências
-3. **Explorar relações entre variáveis** - Descobrir correlações e padrões
-4. **Comunicar descobertas** - Documentar tudo em um notebook claro e organizado
-
-**⚠️ IMPORTANTE:** Esta etapa é APENAS análise. **NÃO** trate/corrija problemas ainda!
+**Lembre-se:** O foco aqui é **analisar**, e não modificar os dados.
 
 ---
 
-## 📋 O Que Você Vai Entregar
+## 📝 Tarefas Principais
 
-### Arquivo Principal
-- **`notebooks/01_EDA.ipynb`** - Notebook Jupyter com toda a análise exploratória
+Seu trabalho será documentado em um notebook Jupyter (`notebooks/01_EDA.ipynb`). Organize seu notebook seguindo as seções abaixo. Para cada tarefa, escreva o código necessário e, em seguida, use células de Markdown para documentar suas observações e conclusões.
 
-### Conteúdo Obrigatório do Notebook
+### 1. Carregamento e Visão Geral dos Dados
 
+Comece carregando o dataset e fazendo uma inspeção rápida para entender sua estrutura. É o primeiro contato com os dados, essencial para garantir que eles foram carregados corretamente e para ter uma ideia geral do que você tem em mãos.
 
-O notebook deve conter as seguintes seções (use headers markdown):
+**O que fazer:**
+- **Carregue o arquivo CSV:** Use a função `pd.read_csv('caminho/para/seu/arquivo.csv')` do Pandas para carregar os dados.
+- **Inspecione o início e o fim:** Use os métodos `.head()` e `.tail()` no seu DataFrame para visualizar as primeiras e últimas linhas. Isso ajuda a identificar se o arquivo foi lido corretamente e se há algum padrão óbvio ou problema no final do arquivo.
+- **Verifique a estrutura:**
+    - Use `.shape` para ver o número de linhas e colunas. Exemplo: `(1000, 15)` significa 1000 linhas e 15 colunas.
+    - Use `.info()` para obter um resumo técnico, incluindo o tipo de dado de cada coluna (`int64`, `float64`, `object`) e a contagem de valores não nulos. É ótimo para uma primeira detecção de valores faltantes.
+- **Calcule estatísticas descritivas:** Use `.describe()` para gerar estatísticas como média, mediana, desvio padrão, mínimo e máximo para todas as colunas numéricas. Isso dá uma noção da escala e distribuição de cada variável.
 
-1. Importação de Bibliotecas
-2. Carregamento dos Dados
-3. Visão Geral do Dataset
-4. Análise de Valores Faltantes
-5. Análise da Variável Alvo (final_grade)
-6. Análise Univariada - Variáveis Numéricas
-7. Análise Univariada - Variáveis Categóricas
-8. Análise de Correlações
-9. Análise Bivariada (Features vs Target)
-10. Identificação de Outliers
-11. Conclusões e Descobertas Principais
-
-**Dica:** Sempre que houver atualização ou nova versão deste roteiro, apenas ajuste as orientações e exemplos, mantendo a estrutura das seções. Assim, o arquivo permanece útil para futuras edições.
+**O que documentar:**
+- Uma breve descrição do dataset.
+- O número de linhas e colunas.
+- Uma lista das variáveis numéricas e categóricas.
+- A identificação da sua variável alvo (a que você quer prever).
 
 ---
 
-## 🔍 Análises Obrigatórias
+### 2. Análise de Qualidade dos Dados
 
+Investigue problemas comuns que podem afetar a qualidade do seu modelo no futuro. Dados "sujos" (com valores faltantes ou outliers) podem distorcer análises e piorar o desempenho de modelos de machine learning.
 
+**O que fazer:**
+- **Calcule valores faltantes:** Use `.isnull().sum()` no seu DataFrame para contar quantos valores `NaN` (Not a Number) existem em cada coluna. Para ver em porcentagem, você pode dividir o resultado pelo total de linhas: `(df.isnull().sum() / len(df)) * 100`.
+- **Crie um gráfico de barras:** Use Matplotlib ou Seaborn para criar um gráfico de barras com as porcentagens de valores faltantes. Isso torna a visualização do problema muito mais clara e impactante.
+- **Gere boxplots para identificar outliers:** Para cada variável numérica, crie um boxplot. Esta é uma das formas mais eficazes de visualizar a dispersão dos dados e identificar valores que fogem muito do padrão.
 
-### 1. Importação de Bibliotecas
+**Como ler um Boxplot:**
+Um boxplot resume a distribuição de uma variável numérica e é ótimo para identificar outliers.
+- A **linha no meio da caixa** é a **mediana** (o valor central, ou Quartil 2 - Q2). 50% dos dados estão abaixo deste valor.
+- A **parte inferior da caixa** é o **Primeiro Quartil (Q1)**. 25% dos dados estão abaixo deste valor.
+- A **parte superior da caixa** é o **Terceiro Quartil (Q3)**. 75% dos dados estão abaixo deste valor.
+- A **altura da caixa** representa o **Intervalo Interquartil (IQR = Q3 - Q1)**, que contém 50% dos dados centrais.
+- As **"whiskers" (linhas que se estendem da caixa)** mostram a amplitude dos dados, geralmente até 1.5 vezes o IQR a partir de Q1 e Q3.
+- **Pontos individuais fora dos whiskers** são considerados **outliers** — valores atipicamente altos ou baixos em comparação com o resto dos dados.
 
-Pesquise quais bibliotecas são necessárias para análise exploratória de dados em Python (ex: pandas, numpy, matplotlib, seaborn, scipy). Importe-as no notebook e explique, em uma célula markdown, para que serve cada uma.
-
----
-
-
-### 2. Carregamento dos Dados
-
-
-Utilize pandas para carregar o dataset. Descubra como visualizar as primeiras e últimas linhas, dimensões, tipos de dados e estatísticas descritivas. Consulte a documentação do pandas para cada etapa.
-
-**📝 Documente:** Quantas linhas e colunas o dataset possui? O que você observa nas primeiras linhas?
-
----
-
-
-### 3. Visão Geral do Dataset
-
-
-Separe as variáveis do dataset em numéricas e categóricas. Pesquise como identificar os tipos de variáveis usando pandas. Liste todas as variáveis de cada tipo, identifique a variável alvo (`final_grade`) e variáveis de identificação (ex: `student_id`).
-
-**📝 Documente:** Qual é a variável alvo? Quais são as features?
+**O que documentar:**
+- Liste as colunas que contêm valores faltantes e a porcentagem de cada uma.
+- Liste as colunas que parecem ter outliers, com base nos boxplots.
+- Formule uma hipótese inicial sobre por que os dados estão faltando (ex: erro de coleta, não aplicável, etc.).
 
 ---
 
+### 3. Análise Univariada
 
-### 4. Análise de Valores Faltantes
+Analise cada variável individualmente para entender sua distribuição e características. Isso ajuda a compreender o comportamento de cada feature antes de começar a cruzá-las.
 
+**O que fazer:**
+- **Para variáveis numéricas:** Crie um **histograma** para cada uma. O histograma agrupa os números em intervalos e mostra a frequência de cada intervalo. Isso ajuda a ver onde os valores se concentram e se a distribuição é simétrica, assimétrica, bimodal, etc. Use `df['coluna'].hist()` ou `sns.histplot()`. Adicionar um gráfico de densidade (`kde=True` no Seaborn) suaviza o histograma e ajuda a ver a forma da distribuição.
+- **Para variáveis categóricas:** Crie um **gráfico de barras** para cada uma. Use `df['coluna'].value_counts().plot(kind='bar')` ou `sns.countplot()`. Isso mostrará quantas vezes cada categoria aparece, ajudando a identificar desbalanceamentos (quando uma categoria é muito mais frequente que as outras).
 
-Pesquise como identificar e quantificar valores faltantes em cada variável. Descubra como criar visualizações (ex: gráfico de barras) para mostrar o percentual de missing. Investigue se há padrão nos valores faltantes (aleatório ou sistemático?).
-
-**📝 Documente:**
-- Qual variável tem mais missing?
-- Os valores faltantes parecem aleatórios ou seguem algum padrão?
-- Sugira possíveis tratamentos (não implemente ainda).
-
----
-
-
-### 5. Análise da Variável Alvo: final_grade
-
-
-Pesquise como calcular estatísticas descritivas (média, mediana, desvio padrão, mínimo, máximo, skewness, kurtosis) para a variável alvo. Descubra como criar histogramas, boxplots e Q-Q plots para analisar a distribuição. Investigue como realizar o teste de normalidade (ex: Shapiro-Wilk) e interpretar o resultado.
-
-**📝 Documente:**
-- A distribuição é normal?
-- Há assimetria? Para qual lado?
-- Existem outliers? Quantos?
-- Qual a faixa de valores mais comum?
+**O que documentar:**
+- Descreva a forma da distribuição da sua variável alvo. Ela é simétrica? Assimétrica?
+- Anote qualquer observação interessante sobre as distribuições das outras variáveis (ex: "a maioria dos alunos não tem tutoria", "a faixa de preço dos imóveis se concentra abaixo de X").
 
 ---
 
+### 4. Análise Bivariada
 
-### 6. Análise Univariada - Variáveis Numéricas
+Investigue a relação entre pares de variáveis para encontrar padrões e correlações. É aqui que você começa a descobrir quais features podem ser importantes para prever sua variável alvo.
 
+**O que fazer:**
+- **Calcule a matriz de correlação:** Use o método `.corr()` no seu DataFrame para calcular a correlação de Pearson entre todas as variáveis numéricas. O resultado varia de -1 (correlação negativa perfeita) a +1 (correlação positiva perfeita). Um valor próximo de 0 indica ausência de correlação linear.
+- **Visualize com um heatmap:** Um heatmap (`sns.heatmap()`) transforma a matriz de correlação em um mapa de cores, tornando muito mais fácil identificar visualmente as variáveis que são fortemente correlacionadas (cores fortes, positivas ou negativas).
+- **Crie scatter plots:** Para as variáveis numéricas que mostraram maior correlação com sua variável alvo, crie um gráfico de dispersão (`sns.scatterplot()`). Coloque a variável alvo no eixo Y e a outra variável no eixo X. Isso ajuda a confirmar visualmente a relação (ex: uma nuvem de pontos que sobe ou desce).
+- **Crie boxplots comparativos:** Para variáveis categóricas, use `sns.boxplot()` para comparar a distribuição da variável alvo entre as diferentes categorias. Por exemplo, um boxplot de `final_grade` por `tutoring` mostrará lado a lado a distribuição de notas para alunos que têm e não têm tutoria.
 
-Para cada variável numérica (exceto student_id e final_grade), pesquise como calcular estatísticas descritivas, criar histogramas e boxplots, e identificar outliers usando o método IQR. Explique cada passo no seu notebook e documente as principais descobertas.
-
-**📝 Documente para cada variável:**
-- Faixa de valores (min, max)
-- Distribuição (normal, assimétrica, bimodal?)
-- Presença de outliers
-- Valores impossíveis ou suspeitos
-
----
-
-
-### 7. Análise Univariada - Variáveis Categóricas
-
-
-Para cada variável categórica, pesquise como contar valores únicos, calcular frequências, criar gráficos de barras e identificar problemas de formatação ou categorias inesperadas. Documente suas descobertas e explique possíveis desbalanceamentos.
-
-**📝 Documente:**
-- Há desbalanceamento entre categorias?
-- Existem problemas de formatação (espaços, maiúsculas)?
-- Alguma categoria inesperada?
+**O que documentar:**
+- Quais variáveis numéricas têm a correlação mais forte (positiva ou negativa) com a variável alvo?
+- Existe alguma relação interessante ou inesperada que você observou nos gráficos?
+- Qual variável categórica parece ter o maior impacto na variável alvo?
 
 ---
 
+## 📊 Entregável
 
-### 8. Análise de Correlações
+- **Notebook Jupyter (`notebooks/01_EDA.ipynb`):** Um notebook bem organizado contendo todo o código, visualizações e documentação da sua análise.
 
+## ✅ Checklist de Sucesso
 
-Pesquise como calcular a matriz de correlação entre variáveis numéricas e como visualizar usando heatmap. Descubra como identificar a correlação de cada feature com a variável alvo e como detectar multicolinearidade. Documente suas interpretações e possíveis correlações inesperadas.
+- [ ] Seu notebook está organizado com títulos para cada uma das 4 tarefas.
+- [ ] Todas as tarefas foram executadas e documentadas.
+- [ ] Os gráficos estão claros, com títulos e rótulos nos eixos.
+- [ ] O notebook executa do início ao fim sem erros.
+- [ ] As principais conclusões sobre os dados estão resumidas ao final do notebook.
 
-**📝 Documente:**
-- Qual feature tem maior correlação com final_grade?
-- Há multicolinearidade?
-- Alguma correlação surpreendente?
-
----
-
-
-### 9. Análise Bivariada
-
-
-Para cada variável categórica, pesquise como analisar a relação entre as categorias e a variável final_grade. Descubra como calcular estatísticas por categoria, criar boxplots e interpretar diferenças de desempenho. Documente suas conclusões.
-
-**📝 Documente:**
-- Quais categorias têm melhor desempenho?
-- As diferenças são significativas?
-- Há sobreposição entre distribuições?
-
----
-
-
-### 10. Identificação de Outliers
-
-
-Pesquise como identificar outliers em variáveis numéricas usando o método IQR. Resuma a quantidade e o percentual de outliers em cada variável e discuta se são legítimos ou possíveis erros.
-
-**📝 Documente:**
-- Quais variáveis têm mais outliers?
-- Os outliers parecem legítimos ou são erros?
-- Existem valores impossíveis?
-
----
-
-
-### 11. Conclusões e Descobertas
-
-
-Escreva um resumo executivo da sua análise em células markdown, respondendo:
-
-1. Principais características do dataset (tamanho, tipos de variáveis, qualidade geral)
-2. Problemas identificados (valores faltantes, outliers, inconsistências, formatação)
-3. Descobertas sobre a variável alvo
-4. Features mais importantes
-5. Próximos passos sugeridos
-
-**Dica:** Sempre adapte esta seção para refletir as descobertas do seu grupo, sem copiar exemplos prontos.
-
----
-
-## ✅ Critérios de Avaliação
-
-Seu notebook será avaliado pelos seguintes critérios:
-
-| Critério | Peso | Descrição |
-|----------|:----:|-----------|
-| **Completude** | 30% | Todas as análises obrigatórias foram feitas? |
-| **Visualizações** | 20% | Gráficos claros, com títulos, labels e legendas? |
-| **Documentação** | 25% | Interpretações em markdown? Descobertas explicadas? |
-| **Qualidade Técnica** | 15% | Código funciona? Sem erros? Organizado? |
-| **Insights** | 10% | Identificou padrões interessantes? Conclusões válidas? |
-
-### Detalhamento:
-
-**Completude (30%):**
-- ✅ Todas as 11 seções estão presentes
-- ✅ Análises obrigatórias realizadas
-- ✅ Todas as variáveis analisadas
-
-**Visualizações (20%):**
-- ✅ Mínimo 4 gráficos
-- ✅ Títulos descritivos
-- ✅ Labels nos eixos
-- ✅ Legendas quando necessário
-- ✅ Tamanho apropriado (figsize)
-
-**Documentação (25%):**
-- ✅ Células markdown explicando cada análise
-- ✅ Interpretação dos resultados
-- ✅ Conclusões em seção final
-- ✅ Código comentado (quando complexo)
-
-**Qualidade Técnica (15%):**
-- ✅ Notebook executa do início ao fim ("Restart & Run All")
-- ✅ Sem erros
-- ✅ Código organizado e limpo
-- ✅ Nomes de variáveis descritivos
-
-**Insights (10%):**
-- ✅ Descobertas interessantes
-- ✅ Padrões identificados
-- ✅ Recomendações para próximas etapas
-
----
-
-## 🚫 Erros Comuns a Evitar
-
-### ❌ NÃO FAÇA:
-
-1. **Tratar dados nesta etapa**
-   - NÃO preencha valores faltantes
-   - NÃO remova outliers
-   - NÃO faça encoding de categóricas
-   - **Esta etapa é APENAS análise!**
-
-2. **Visualizações sem contexto**
-   - NÃO crie gráficos sem título
-   - NÃO esqueça labels nos eixos
-   - NÃO use cores confusas
-
-3. **Código sem documentação**
-   - NÃO deixe apenas código
-   - NÃO esqueça de interpretar resultados
-   - NÃO omita conclusões
-
-4. **Análise superficial**
-   - NÃO faça apenas o mínimo
-   - NÃO ignore variáveis
-   - NÃO copie código sem entender
-
----
-
-## 💡 Dicas de Sucesso
-
-### 🎯 Organização
-
-1. **Use headers markdown** para separar seções
-2. **Adicione índice** no início do notebook
-3. **Numere suas descobertas** para facilitar referência
-4. **Use cores consistentes** nas visualizações
-
-### 🔍 Exploração Profunda
-
-- Vá **além do obrigatório**
-- Teste **hipóteses** sobre os dados
-- Procure **padrões interessantes**
-- Seja **curioso**!
-
-### 🧪 Antes de Entregar
-
-**Checklist final:**
-- [ ] Execute "Restart Kernel & Run All Cells"
-- [ ] Verifique que não há erros
-- [ ] Todas as visualizações aparecem
-- [ ] Markdown sem erros de digitação
-- [ ] Conclusões escritas
-- [ ] Commit e push realizados
-
----
-
-## 📦 Como Entregar
-
-### 1. Certifique-se de que está na branch correta
-
-```bash
-# Ver branch atual
-git branch
-
-# Se não estiver na main, volte
-git checkout main
-```
-
-### 2. Salve e teste o notebook
-
-- Salve o notebook
-- Verifique que tudo funciona
-
-### 3. Commit e Push
-
-```bash
-git add notebooks/01_EDA.ipynb
-git commit -m "feat: Adiciona análise exploratória completa (Semana 1)
-
-- Análise de valores faltantes
-- Análise univariada de todas as variáveis
-- Matriz de correlação
-- Análise bivariada
-- Identificação de outliers
-- Conclusões e descobertas"
-
-git push origin main
-```
-
-### 4. Verifique no GitHub
-
-- Acesse seu repositório no GitHub
-- Confirme que o arquivo aparece
-- Teste se o notebook renderiza corretamente
-
----
-
-## ⏰ Gestão de Tempo Sugerida
-
-
-<!-- Cronograma removido para deixar o roteiro atemporal e mais flexível. -->
-
----
-
-**Boa análise! Descubra os segredos escondidos nos dados!** 🔍🚀
-
+**Bom trabalho!** 🔍
