@@ -10,7 +10,7 @@
 **Disciplina:** Introdução à Machine Learning - 2025.2
 **Professor:** Professor Durval
 **Data:** 30/11/2025
-**Repositório:** [text](https://github.com/Alisonjs0/uninassau-atividade-alunos-ml-regressao)
+**Repositório:** [Link Repositorio](https://github.com/Alisonjs0/uninassau-atividade-alunos-ml-regressao)
 
 ---
 
@@ -205,8 +205,8 @@ R²                0.7000            O modelo explica 70% da variabilidade dos d
 - **Homocedasticidade:** [ex: Variância constante ao longo das predições]
 - **Padrões:** [ex: Nenhum padrão claro detectado]
 
-**![alt text](../src/assets/ResiduosPredicoes.png)]**
-**![alt text](../src/assets/Histograma_distribuicao_de_residuos.png)]**
+**![alt text](../src/assets/ResiduosPredicoes.png)**
+**![alt text](../src/assets/Histograma_distribuicao_de_residuos.png)**
 
 ### 5.3 Feature Importance
 
@@ -217,7 +217,7 @@ R²                0.7000            O modelo explica 70% da variabilidade dos d
    traffic_condition_congestionado: Aumento significativo devido ao trânsito.
    day_of_week: Dias como Domingo apresentaram coeficientes relevantes.
 
-**[![alt text](../src/assets/Feature_Importance.png)]**
+**![alt text](../src/assets/Feature_Importance.png)**
 
 ---
 
