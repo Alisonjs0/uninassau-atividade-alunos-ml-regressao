@@ -58,7 +58,7 @@ Desenvolver um modelo preditivo para estimar o tempo de entrega em horas (delive
 
 #### 2.2.1 Análise da Variável Alvo
 
-> Descreva a distribuição de `final_grade`.
+> Descreva a distribuição de `delivery_time_hours`.
 
 - **Média:** 19.14 Horas
 - **Mediana:**  18.49
@@ -66,7 +66,7 @@ Desenvolver um modelo preditivo para estimar o tempo de entrega em horas (delive
 - **Faixa:** 0.5 - 51.55 Horas
 - **Distribuição:** Aproximadamente normal, mas com uma leve assimetria à direita
 
-**![alt text](image.png)**
+**![alt text](../src/assets/Distribuicao.png)**
 
 #### 2.2.2 Correlações
 
@@ -76,7 +76,7 @@ Desenvolver um modelo preditivo para estimar o tempo de entrega em horas (delive
    traffic_condition_congestionado: Forte impacto positivo no tempo.
    time_of_day_tarde: Horário com tendência de aumento no tempo.
 
-**![alt text](image-1.png)**
+**![alt text](../src/assets/Matriz_correlação.png)**
 
 #### 2.2.3 Valores Faltantes
 
@@ -194,7 +194,7 @@ Métrica           Valor                      Interpretação
 RMSE              5.5992           O erro médio das previsões é de aprox. 5.6 horas.
 MAE               1.7051           Erro absoluto médio de 1.7 horas.
 R²                0.7000            O modelo explica 70% da variabilidade dos dados.
-**![alt text](image-2.png)**
+**![alt text](../src/assets/PreditoXreal.png)**
 
 ### 5.2 Análise de Resíduos
 
@@ -204,8 +204,8 @@ R²                0.7000            O modelo explica 70% da variabilidade dos d
 - **Homocedasticidade:** [ex: Variância constante ao longo das predições]
 - **Padrões:** [ex: Nenhum padrão claro detectado]
 
-**[Resíduos vs Predições ![alt text](image-4.png)]**
-**[Histograma de Resíduos ![alt text](image-3.png)]**
+**[Resíduos vs Predições ![alt text](../src/assets/ResiduosPredicoes.png)]**
+**[Histograma de Resíduos ![alt text](../src/assets/Histograma_distribuicao_de_residuos.png)]**
 
 ### 5.3 Feature Importance
 
@@ -216,7 +216,7 @@ R²                0.7000            O modelo explica 70% da variabilidade dos d
    traffic_condition_congestionado: Aumento significativo devido ao trânsito.
    day_of_week: Dias como Domingo apresentaram coeficientes relevantes.
 
-**[Bar plot de Feature Importance ![alt text](image-5.png)]**
+**[Bar plot de Feature Importance ![alt text](../src/assets/Feature_Importance.png)]**
 
 ---
 
