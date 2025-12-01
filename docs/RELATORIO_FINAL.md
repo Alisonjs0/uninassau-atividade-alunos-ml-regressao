@@ -1,10 +1,11 @@
 # Relatório Final - Projeto de Machine Learning
 
-**Aluno(a):** Alison Jose Serafim - 01704127
-              Jose Adilmo Antonio Guimaraes - 01686937
-              Elivelton Gomes - 01676905
-              Patrik Moreira - 01690377
-              José Victor Alves - 01688969
+**Aluno(a):** 
+- Alison Jose Serafim - 01704127
+- Jose Adilmo Antonio Guimaraes - 01686937
+- Elivelton Gomes - 01676905
+- Patrik Moreira - 01690377
+- José Victor Alves - 01688969
 
 **Disciplina:** Introdução à Machine Learning - 2025.2
 **Professor:** Professor Durval
@@ -204,8 +205,8 @@ R²                0.7000            O modelo explica 70% da variabilidade dos d
 - **Homocedasticidade:** [ex: Variância constante ao longo das predições]
 - **Padrões:** [ex: Nenhum padrão claro detectado]
 
-**[Resíduos vs Predições ![alt text](../src/assets/ResiduosPredicoes.png)]**
-**[Histograma de Resíduos ![alt text](../src/assets/Histograma_distribuicao_de_residuos.png)]**
+**![alt text](../src/assets/ResiduosPredicoes.png)]**
+**![alt text](../src/assets/Histograma_distribuicao_de_residuos.png)]**
 
 ### 5.3 Feature Importance
 
@@ -216,7 +217,7 @@ R²                0.7000            O modelo explica 70% da variabilidade dos d
    traffic_condition_congestionado: Aumento significativo devido ao trânsito.
    day_of_week: Dias como Domingo apresentaram coeficientes relevantes.
 
-**[Bar plot de Feature Importance ![alt text](../src/assets/Feature_Importance.png)]**
+**[![alt text](../src/assets/Feature_Importance.png)]**
 
 ---
 
