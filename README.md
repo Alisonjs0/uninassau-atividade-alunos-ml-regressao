@@ -1,13 +1,15 @@
-Aluno(a):
+# Alunos:
 
-Alison Jose Serafim - 01704127
-Jose Adilmo Antonio Guimaraes - 01686937
-Elivelton Gomes - 01676905
-Patrik Moreira - 01690377
-José Victor Alves - 01688969
-Disciplina: Introdução à Machine Learning - 2025.2 Professor: Professor Durval Data: 30/11/2025 Repositório: Link Repositorio
+**Alison Jose Serafim** - 01704127
+**Jose Adilmo Antonio Guimaraes** - 01686937
+**Elivelton Gomes** - 01676905
+**Patrik Moreira** - 01690377
+**José Victor Alves** - 01688969
+**Disciplina: Introdução à Machine Learning** - 2025.2 Professor: Professor Durval Data: 30/11/2025 Repositório: Link Repositorio
 
-# 🎓 Projeto Final: Machine Learning - Previsão de Desempenho Acadêmico
+---
+
+## 🎓 Projeto Final: Machine Learning - Previsão de Desempenho Acadêmico
 
 **Disciplina:** Introdução à Machine Learning
 **Professor:** [Nome do Professor]
